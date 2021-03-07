@@ -1,5 +1,6 @@
-package com.example.coco;
+package com.example.coco.order;
 
+import com.example.coco.AppConfig;
 import com.example.coco.member.Grade;
 import com.example.coco.member.Member;
 import com.example.coco.member.MemberService;
@@ -12,11 +13,15 @@ import org.junit.jupiter.api.Test;
 
 public class OrderServiceTest {
 
-    OrderService orderService=new OrderServiceImpl();
-    MemberService memberService=new MemberServiceImpl();
+//    OrderService orderService=new OrderServiceImpl();
+//    MemberService memberService=new MemberServiceImpl();
+
+    AppConfig appConfig=new AppConfig();
 
     @Test
     void createOrder(){
+        MemberService memberService = appConfig.memberService();
+        OrderService orderService = appConfig.orderService();
         Long memberId=1L;
         Member member = new Member(memberId, "A", Grade.VIP);
         memberService.join(member);

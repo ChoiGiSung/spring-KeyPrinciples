@@ -2,16 +2,30 @@ package com.example.coco.order;
 
 import com.example.coco.discount.DisCountPolicy;
 import com.example.coco.discount.FixDiscountPolicy;
+import com.example.coco.discount.RateDiscountPolicy;
 import com.example.coco.member.Member;
 import com.example.coco.member.MemberRepository;
 import com.example.coco.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository=new MemoryMemberRepository();
-    private final DisCountPolicy disCountPolicy=new FixDiscountPolicy();
+    private final MemberRepository memberRepository;
+//    private final DisCountPolicy disCountPolicy=new FixDiscountPolicy();
+    private final DisCountPolicy disCountPolicy;
+    // cop 원칙에 위배됨 , 오른쪽을 변경했다.
+    // dip 원칙을 위배했다. 명시적으로 하위 구현체를 정했다.
 
-    @Override
+    //-> 빈으로 만들고 생성자로 받아서 넣는다.
+
+    public OrderServiceImpl(MemberRepository memberRepository, DisCountPolicy disCountPolicy) {
+        this.memberRepository = memberRepository;
+        this.disCountPolicy = disCountPolicy;
+    }
+    //dip를 지키고 있다. interface만 바라보고 있다.
+
+
+
+   @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
         Member member = memberRepository.findById(memberId);
         //단일 책임 원칙으로
